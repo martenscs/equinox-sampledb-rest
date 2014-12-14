@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Example Domain Project
+Bundle-SymbolicName: net.martenscs.osgi.example.rsservices
+Bundle-Version: 1.0.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: javax.persistence;version="2.0.0",
+ javax.sql,
+ javax.ws.rs;version="1.1.1",
+ javax.ws.rs.core;version="1.1.1",
+ net.martenscs.osgi.example.domain.api;version="1.0.0",
+ org.apache.commons.lang.exception;version="2.6.0",
+ org.apache.derby.jdbc,
+ org.codehaus.jackson.jaxrs
+Require-Bundle: org.apache.cxf.cxf-rt-frontend-jaxrs;bundle-version="2.7.13"

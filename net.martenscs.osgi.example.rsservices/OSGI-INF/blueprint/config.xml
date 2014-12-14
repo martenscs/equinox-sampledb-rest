@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0" xmlns:jaxws="http://cxf.apache.org/blueprint/jaxws" xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+	xmlns:cxf="http://cxf.apache.org/blueprint/core"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+                        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint-2.8.0.xsd
+                        http://aries.apache.org/xmlns/transactions/v1.0.0 http://aries.apache.org/schemas/transaction/transactionv10.xsd
+                        http://aries.apache.org/xmlns/jpa/v1.1.0 http://aries.apache.org/schemas/jpa/jpa_110.xsd
+                        http://cxf.apache.org/blueprint/jaxws http://cxf.apache.org/schemas/blueprint/jaxws.xsd 
+                        http://cxf.apache.org/blueprint/jaxrs http://cxf.apache.org/schemas/blueprint/jaxrs.xsd 
+                        http://cxf.apache.org/blueprint/core http://cxf.apache.org/schemas/blueprint/core.xsd">
+
+	<reference id="customerRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/customer)" />
+
+	<reference id="employeeRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/employee)" />
+
+	<reference id="officeRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/office)" />
+
+	<reference id="orderRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/order)" />
+
+	<reference id="productRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/product)" />
+
+	<reference id="paymentRepository" interface="net.martenscs.osgi.example.domain.api.Repository" availability="mandatory"
+		filter="(osgi.jndi.service.name=repository/payment)" />
+
+	<bean id="customerServiceWs" class="net.martenscs.osgi.example.services.CustomerServices">
+		<property name="repository" ref="customerRepository" />
+	</bean>
+	<bean id="employeeServiceWs" class="net.martenscs.osgi.example.services.EmployeeServices">
+		<property name="repository" ref="employeeRepository" />
+	</bean>
+	<bean id="officeServiceWs" class="net.martenscs.osgi.example.services.OfficeServices">
+		<property name="repository" ref="officeRepository" />
+	</bean>
+	<bean id="orderServiceWs" class="net.martenscs.osgi.example.services.OrderServices">
+		<property name="repository" ref="orderRepository" />
+	</bean>
+	<bean id="productServiceWs" class="net.martenscs.osgi.example.services.ProductServices">
+		<property name="repository" ref="productRepository" />
+	</bean>
+	<bean id="paymentServiceWs" class="net.martenscs.osgi.example.services.PaymentServices">
+		<property name="repository" ref="paymentRepository" />
+	</bean>
+
+	<jaxrs:server id="customerService" address="/customer">
+		<jaxrs:serviceBeans>
+			<ref component-id="customerServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="employeeService" address="/employee">
+		<jaxrs:serviceBeans>
+			<ref component-id="employeeServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="officeService" address="/office">
+		<jaxrs:serviceBeans>
+			<ref component-id="officeServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="orderService" address="/order">
+		<jaxrs:serviceBeans>
+			<ref component-id="orderServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<jaxrs:server id="productService" address="/product">
+		<jaxrs:serviceBeans>
+			<ref component-id="productServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+	
+	<jaxrs:server id="paymentService" address="/payment">
+		<jaxrs:serviceBeans>
+			<ref component-id="paymentServiceWs" />
+		</jaxrs:serviceBeans>
+		<jaxrs:extensionMappings>
+			<entry key="json" value="application/json" />
+			<entry key="xml" value="application/xml" />
+		</jaxrs:extensionMappings>
+		<jaxrs:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+</blueprint>
